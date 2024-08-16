@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            width: 100%;
+        }
+        .calculator h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .calculator input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .calculator button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .calculator button:hover {
+            background-color: #45a049;
+        }
+        .calculator .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>CGPA Calculator</h2>
+    <label for="semesterCount">Number of Semesters:</label>
+    <input type="number" id="semesterCount" min="1" max="10" placeholder="Enter number of semesters" required>
+    <div id="sgpaInputs"></div>
+    <button onclick="calculateCGPA()">Calculate CGPA</button>
+    <div class="result" id="cgpaResult"></div>
+</div>
+
+<script>
+    const semesterCountInput = document.getElementById('semesterCount');
+    const sgpaInputsContainer = document.getElementById('sgpaInputs');
+
+    semesterCountInput.addEventListener('input', function() {
+        const semesterCount = parseInt(this.value);
+        sgpaInputsContainer.innerHTML = ''; // Clear previous inputs
+        for (let i = 1; i <= semesterCount; i++) {
+            const label = document.createElement('label');
+            label.textContent = `SGPA for Semester ${i}:`;
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = '0';
+            input.max = '10';
+            input.step = '0.01';
+            input.placeholder = `Enter SGPA for semester ${i}`;
+            input.required = true;
+            input.classList.add('sgpaInput');
+            sgpaInputsContainer.appendChild(label);
+            sgpaInputsContainer.appendChild(input);
+        }
+    });
+
+    function calculateCGPA() {
+        const sgpaInputs = document.querySelectorAll('.sgpaInput');
+        let totalSGPA = 0;
+        sgpaInputs.forEach(input => {
+            totalSGPA += parseFloat(input.value);
+        });
+        const cgpa = totalSGPA / sgpaInputs.length;
+        document.getElementById('cgpaResult').textContent = `Your CGPA is: ${cgpa}`;
+    }
+</script>
+
+</body>
+</html>
